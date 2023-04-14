@@ -1,25 +1,53 @@
-<%= image_tag "logo.png", class: "logo d-flex justify-content-center" %>
-<h1>EatAliAmo</h1>
-<p>Delicie-se com a Liberdade della Vita Italiana em EatALiAmo</p>
-
-<%#= tinymce %>
-<%# = text_area_tag :content, "", :class => "tinymce", :rows => 40, :cols => 120 %>
 <div class="container">
-  <div class="cards" id="cards-index">
-    <% @posts.each do |post| %>
-      <%= link_to post_path(post) do %>
-        <div class="card">
-          <%# if post.photo.attached? %>
-          <%#= cl_image_tag post.photo.key, crop: :fill, class: "card-img-top" %>
-          <%# else %>
-          <%= image_tag "logo.png", class: "card-img-top" %>
-          <%# end %>
-          <div class="content">
-            <h3 class="card-title"><strong><%= post.title %></strong></h3>
-            <p class="card-text"><%= raw(truncate(post.body, length: post.body.lines.first.length * 2)) %></p>
-          </div>
-        </div>
-      <% end %>
+  <%= image_tag "logo.png", class: "logo d-flex justify-content-center" %>
+  <h1>EatAliAmo</h1>
+  <p>Delicie-se com a Liberdade della Vita Italiana em EatALiAmo</p>
+
+<div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
+  <ol class="carousel-indicators">
+    <% @highlighted_posts.each_with_index do |post, index| %>
+      <li data-target="#hero-carousel" data-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : '' %>"></li>
     <% end %>
+  </ol>
+  <div class="carousel-inner">
+    <% @highlighted_posts.each_with_index do |post, index| %>
+      <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
+        <%= image_tag "logo.png", class: "card-img-top" %>
+        <div class="carousel-caption d-none d-md-block">
+          <h5><%= post.title %></h5>
+          <p><%= post.body %></p>
+          <%= link_to 'Read More', post_path(post), class: 'btn btn-primary' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+       <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+</div>
+  <div class="container">
+    <div class="cards" id="cards-index">
+      <% @posts.each do |post| %>
+        <%= link_to post_path(post) do %>
+          <div class="card">
+            <%# if post.photo.attached? %>
+            <%#= cl_image_tag post.photo.key, crop: :fill, class: "card-img-top" %>
+            <%# else %>
+            <%= image_tag "logo.png", class: "card-img-top" %>
+            <%# end %>
+            <div class="content">
+              <h3 class="card-title"><strong><%= post.title %></strong></h3>
+              <p class="card-text"><%= raw first_lines(post.body) %></p>
+              <p class="card-text">Estimated reading time: <%= post.estimated_reading_time %> min</p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>

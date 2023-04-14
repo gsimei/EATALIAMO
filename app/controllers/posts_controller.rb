@@ -3,6 +3,10 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
   before_action :check_admin, except: %i[index show]
 
+  def self.highlight
+    where(highlight: true)
+  end
+
   def index
     @posts = Post.all
   end
@@ -18,7 +22,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
 
     if @post.save
       redirect_to root_path, notice: "Post was created successfully"
