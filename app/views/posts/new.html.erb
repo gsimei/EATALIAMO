@@ -3,6 +3,7 @@
 <%= render "form", post: @post %>
 
 <br>
+ <%= button_to "submit", @post, method: :submit, data: {confirm: "Are you sure?"}, class: "btn btn-danger remove-btn" %>
 
 <div>
   <%= link_to "Back to posts", posts_path %>
