@@ -1,5 +1,25 @@
+<%= image_tag "logo.png", class: "logo d-flex justify-content-center" %>
 <h1>EatAliAmo</h1>
-<p>Comida, Viagem e Cultura Italliana</p>
+<p>Delicie-se com a Liberdade della Vita Italiana em EatALiAmo</p>
 
-<%= tinymce %>
-<%= text_area_tag :content, "", :class => "tinymce", :rows => 40, :cols => 120 %>
+<%#= tinymce %>
+<%# = text_area_tag :content, "", :class => "tinymce", :rows => 40, :cols => 120 %>
+<div class="container">
+  <div class="cards" id="cards-index">
+    <% @posts.each do |post| %>
+      <%= link_to post_path(post) do %>
+        <div class="card">
+          <%# if post.photo.attached? %>
+          <%#= cl_image_tag post.photo.key, crop: :fill, class: "card-img-top" %>
+          <%# else %>
+          <%= image_tag "logo.png", class: "card-img-top" %>
+          <%# end %>
+          <div class="content">
+            <h3 class="card-title"><strong><%= post.title %></strong></h3>
+            <p class="card-text"><%= raw(truncate(post.body, length: post.body.lines.first.length * 2)) %></p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
